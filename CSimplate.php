@@ -57,11 +57,6 @@
 
 require_once('lib/simple_html_dom.php');
 
-/******************************************************************************
- * Configuração do Módulo
- */
-	if (!defined('SPL_FORCE')) define('SPL_FORCE', false);
-   	if (!defined('SPL_PROJECT_NAME')) define('SPL_PROJECT_NAME','Silos Framework');
 /*
  * 
  *****************************************************************************/
@@ -128,6 +123,13 @@ class CSimplate
 	
 	function CSimplate($psHtmlPath, $psPHPPath=null, $psplMaster=null, $psEntryPoint="")
 	{
+    
+    /******************************************************************************
+     * Configuração do Módulo
+     */
+    if (!defined('SPL_FORCE')) define('SPL_FORCE', false);
+    if (!defined('SPL_PROJECT_NAME')) define('SPL_PROJECT_NAME','Silos Framework');
+    
 		$this->m_sHtmlPath  = $psHtmlPath;
 		$this->p_sPhpPath   = $psPHPPath;
 		$this->p_splMaster =  $psplMaster;
