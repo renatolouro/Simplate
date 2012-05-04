@@ -1,33 +1,9 @@
 <?php
-/******************************************************************************
- *$AI Módulo de Implementação
- *    Nome:                   Classe CGeneric_Iterator
- *    Copyright/Proprietário: 2010-2011 / Silos Software e Tecnologia da
- *                               Informacao LTDA ME
- *    Projeto:                Silos Web Framework
- *    Gestor do Arquivo:      Renato da Silva Louro (@rslouro)
- *                               renato@silostecnologia.com.br
- *    Arquivo:                CGeneric_Iterator.php
- *    Identificação:          SPL
- *    Versão corrente:        00.001 Alfa
- *    Data de Aprovação:      2011/02/07
- *    Licença: GNU General    Public License, version 3 (GPLv3)
- *
- *    Autor(es):
- *       Diego da Costa Chavão (@Chavao)  chavao@silostecnologia.com.br
- *       Lucas Souza - (@LucasZeta) lucas@silostecnologia.com.br
- *
- *$ED Descrição da Classe
- *   Iterador sobre Arrays
- *   Descrição dos métodos:
- *      next    - Retorna o próximo valor do array e avança o ponteiro;
- *      hasNext - Retorna:
- *         - true  - caso exista um próximo valor; e
- *         - false - caso não exista um próximo valor.
- *      close - deve ser chamado ao final da iteração. Libera recursos alocados
- *         caso existam.
- *      rewind - Volta com o ponteiro para a posição inicial do array.
- *****************************************************************************/
+/**
+ * @desc Iterator over Arrays
+ * @author Diego Chavão - @Chavao <fale@chavao.net> 
+ * @author Lucas Souza - @LucasZeta <lucas@silostecnologia.com.br>
+ */
 require_once('IIterator.php');
 
 class CGeneric_Iterator implements IIterator
@@ -42,6 +18,10 @@ class CGeneric_Iterator implements IIterator
         if(is_array($this->p_arrObj)) $this->p_obj=reset($this->p_arrObj);
     }
 
+    /**
+     * @desc Get the current value of the array and forwards the pointer.
+     * @return object Object with the current value of the array of objects.
+     */
     function next()
     {
         $objReturn = $this->p_obj;
@@ -50,16 +30,26 @@ class CGeneric_Iterator implements IIterator
         return $objReturn;
     }
 
+    /**
+     * @desc Returns the pointer to the first element of the array.
+     */
     function rewind()
     {
         if(is_array($this->p_arrObj)) $this->p_obj=reset($this->p_arrObj);
     }
 
+    /**
+     * @desc Verifies if the iterator has a next element in the array.
+     * @return boolean
+     */
     function hasNext()
     {
         return $this->p_obj!=false;
     }
 
+    /**
+     * @desc Should to call close() at the end of iterator. Flushes resources.
+     */
     function close()
     {
         unset($this->p_arrObj);

@@ -1,96 +1,13 @@
 <?php
-/******************************************************************************
- *$AI Módulo de Implementação
- *    Nome:                   Classe Simplate
- *    Copyright/Proprietário: 2010-2011 / Silos Software e Tecnologia da
- *                               Informacao LTDA ME
- *    Projeto:                Silos Web Framework
- *    Gestor do Arquivo:      Renato da Silva Louro (@rslouro)
- *                               renato@silostecnologia.com.br
- *    Arquivo:                CSimplate.php
- *    Identificação:          SPL
- *    Versão corrente:        00.001 Alfa
- *    Data de Aprovação:      2011/02/07
- *    Licença: GNU General    Public License, version 3 (GPLv3)
- *    Copyright: 2010-2011    Renato da Silva Louro
- *
- *    Autor: Renato da Silva Louro (@rslouro) renato@silostecnologia.com.br
- *    Colaboradores:
- *       Diego da Costa Chavão (@chavao)  chavao@silostecnologia.com.br
- *          - Implementações
- *          - Acertos de Faltas
- *          - Autoria e Implementação da função show
- *       Lucas Souza - (@LucasZeta) lucas@silostecnologia.com.br
- *          - Implementações
- *          - Acertos de Faltas
- *          - Autoria e Implementação da função show
- *
- *****************************************************************************/
-
-/*****************************************************************************
- *$HA Alteração
- *   Versão: 0.002 Alfa (REV.130)
- *   Data: 2011/02/11
- *   Autor: @rslouro
- *   Tipo:Evolutiva
- *   Solicitação: Definição de configuração padrão  para o Scope.
- *$ED
- *   comandShow()
- *      Padrão do scope=outer para o comando show
- *    mountPhpNode(...)
- *      Padrão do scope=inner para o comando bid
- *
- */
-
-/*****************************************************************************
- *$HA Alteração
- *   Versão: 0.002 Alfa (REV.129)
- *   Data: 2011/02/08
- *   Autor: @chavao
- *   Tipo: Corretiva
- *   Solicitação: scopo inner e alter trocados.ao utilizar o comando
- *   show.
- *$ED
- *   comandShow()
- *      Correção de carga de objeto auxiliar de acordo com o scope
- */
 
 require_once('lib/simple_html_dom.php');
 
-/*
- *
- *****************************************************************************/
-/******************************************************************************
- *$CC Classe Simplate
- *$ED Descrição da Classe
- *   Classe Principal da Enginie Simplate PHP. Em resumo esta classe:
- *   1 - Recebe como entrada um ou mais templates HMTL;
- *   2 - Processa - Compila ou Interpreta - os comandos embutidos no(s)
- *       template(s)
- *   3 - Gera um Arquivo cache - no caso de compilação - ou exibe o resultado
- *       - no caso de interpretação.
- *
- *$EU Modo de Utilizar a Classe
- *   Na maioria dos casos, para a utilização desta Classe são necessários 3
- *   passos:
- *   1- Criar uma instancia da Classe, ver detalhes na função construtora;
- *   2- Chamar a função record do objeto criado. Isto fará criar ou atualizar o
- *      arquivo cache se for o caso;
- *   3- Chamar/Executar o arquivo cache com, por exemplo, o comando
- *      require_once do php
- *
- *   Exemplo:
- *      $objSimp=new CSimplate("meu_template.html", "cache_gerado.php");
- *      $objSimp->record();
- *      require_once("cache_gerado.php");
- *
- *$EH Hipóteses Assumidas pela Classe
- *   Espera-se que exista permissão de escrita no diretório dos arquivos cache
- *      e/ou em seus arquivos para o usuário responsável pela execução do
- *      script PHP.
- *   Espera-se que seja definida, antes da execução da instrução record, a
- *   constante booleana SPL_FORCE.
- *****************************************************************************/
+/**
+ * @desc Simplate parser class.
+ * @author Renato da Silva Louro - @rslouro <renato@silostecnologia.com.br>
+ * @author Diego Chavão - @Chavao <fale@chavao.net>
+ * @author Lucas Souza - @LucasZeta <lucas@silostecnologia.com.br> 
+ */
 class CSimplate
 {
     public  $m_sHtmlPath  = null;
@@ -100,33 +17,16 @@ class CSimplate
     private $p_sCurrObjName = null;
     private static $p_iCounter = 0;
 
-    /******************************************************************************
-     *$FC CSimplate Método Construtor da Classe Simplate
-     *
-     *$EP Parâmetros da Função
-     *$P $psHtmlPath Caminho físico do arquivo template
-     *      Ao Entrar: String apontando para o arquivo pré-existente template.
-     *         Parametro obrigatório.
-     *$P $psPHPPath Caminho físico do arquivo cache
-     *      Ao Entrar: String apontando para o arquivo cache sendo este
-     *         pré-existente ou não. Parametro obrigatório.
-     *$P $psplMaster Objeto Simplate da Masterpage
-     *      Ao Entrar: Objeto Simplate da Masterpage
-     *         Parametro Opcional.
-     *$P $psEntryPoint Identificador do Ponto de Entrada
-     *      Ao Entrar: Identificador (ID) das tags do template e Masterpage que
-     *         marca o ponto de inclusão do template na masterpage.
-     *         Se $psplMaster<>null: Parâmetro obrigatório string<>""
-     *         Se $psplMaster==null: NULL ou ""
-
-     *****************************************************************************/
-
+    /**
+     * @desc Constructor of Simplate class.
+     * @param string $psHtmlPath Path to the Simplate file.
+     * @param string $psPHPPath Path to the PHP generated cache.
+     * @param string $psplMaster Masterpage Simplate object.
+     * @param string $psEntryPoint Entry point to template and masterpage.
+     */
     function CSimplate($psHtmlPath, $psPHPPath=null, $psplMaster=null, $psEntryPoint="")
     {
-
-        /******************************************************************************
-         * Configuração do Módulo
-         */
+        /* Module configuration. */
         if (!defined('SPL_FORCE')) define('SPL_FORCE', false);
         if (!defined('SPL_PROJECT_NAME')) define('SPL_PROJECT_NAME','Silos Framework');
 
@@ -136,31 +36,21 @@ class CSimplate
         $this->p_sEntryPoint = $psEntryPoint;
     }
 
-
-    /**********************
-     * Verifica a necessidade de gerar ou regerar o cache,
-     * se sim:
-     *    Cria cabeçalho do arquivo
-     *    Chama a compilação do template
-     *    Chama a compilação da masterpage se existente
-     *    Cola o template compilado dentro da masterpage compilada tendo como base
-     *       p_sEntryPoint
-     *    Salva o resultado em p_sPhpPath
+    /**
+     * @desc Performs record the PHP generated cache. If masterpage exists, compiles and merge them to one file.
+     * @return string HTML compiled 
      */
     function record()
     {
         if ((SPL_FORCE == true) || (!file_exists($this->p_sPhpPath)) || (filemtime($this->p_psHtmlPath) > filemtime($this->p_sPhpPath)))
         {
             $sComment  = "<?php \n";
-            $sComment .= "//***************************************** \n";
-            $sComment .= "//\$AI Módulo de implementação.\n";
-            $sComment .= "//\tARQUIVO GERADO. Não edite este arquivo. \n";
-            $sComment .= "//\tGerado a partir de: ".__FILE__." \n";
-            $sComment .= "// \n";
-            $sComment .= "//\tProprietário: Silos \n";
-            $sComment .= "//\tProjeto: ".SPL_PROJECT_NAME." \n";
-            $sComment .= "//\tArquivo:".$this->p_sPhpPath." \n";
-            $sComment .= "//\$. ************************************** \n";
+            $sComment .= "/** \n";
+            $sComment .= " * FILE GENERATED! Don't edit this file! \n";
+            $sComment .= " * Generated from: ".__FILE__." \n";
+            $sComment .= " * Project: ".SPL_PROJECT_NAME." \n";
+            $sComment .= " * File: ".$this->p_sPhpPath." \n";
+            $sComment .= " */ \n";
             $sComment .= "?> \n";
 
             $objDomHtml = $this->compile();
@@ -190,6 +80,10 @@ class CSimplate
         return $this->p_sPhpPath;
     }
 
+    /**
+     * @desc Performs the Simplate compilation.
+     * @return object DOM object compiled. 
+     */
     function compile()
     {
         $objHtml = file_get_html($this->m_sHtmlPath);
@@ -197,13 +91,13 @@ class CSimplate
         return ($objHtml);
     }
 
-
-    /******************************************************************************
-     *  Compila a página template ou o DOM em forma de objeto em página php. Função
-     *  recursiva: Acessa cada um dos nós filhos chamando a função mountPhpNode
-     *  que compila cada um dos nós em separado. Depois acessa cada um dos filhos
-     *  do nó para recursivamente, compilar os nós internos.
-     *****************************************************************************/
+    /** 
+     * @desc Parse DOM object and delegates to mount the nodes.
+     * @param simple_html_dom_node $pobjDom DOM object
+     * @param integer $pideep
+     * @param booleann $pbFlag
+     * @return string PHP script to be saved. 
+     */
     function mountPhpPage(&$pobjDom=null, $pideep=0, $pbFlag=false)
     {
         //if(!isset($pobjDom)) $pobjDom=file_get_html($this->m_sHtmlPath);
@@ -220,28 +114,13 @@ class CSimplate
         }
     }
 
-    /******************************************************************************
-     *$FC mountPhpNode Compila o objeto nó em php+html
-     *
-     *$ED Descrição da Função
-     *    Compila o objeto nó corrente retirando as marcações do Simplate e inserindo
-     *    comandos em PHP no corpo do nó. Também compila os filhos existentes deste
-     *    mesmo nó através de chamadas recursivas.
-     *
-     *$EP Parâmetros da Função
-     *$P $pobjNode Objeto representando um Nó da estrutura DOM
-     *      Ao Entrar: Objeto não compilado, isto é, html + comandos do Simplate
-     *      Ao Sair:   Objeto já compilado, isto é, html + comandos PHP
-     *$P $pideep Profundidade
-     *      Ao Entrar: Indica a profundidade em termos de recursão desta instância
-     *         de função. Utilizado para marcar as váriaveis do código compilado
-     *         evitando 'colisão' entre as mesmas.
-     *$P $pbFlag Marcador de Retorno
-     *      Ao Entrar: Indica se a função apenas modificará o $objNode ou se
-     *         o código compilado pelo comando return.
-     *         False - Apenas modificará o objeto $objNode.
-     *         True  - Também retornará o código compilado via 'return'
-     *****************************************************************************/
+    /**
+     * @desc Compiles the DOM object in a PHP and HTML result.
+     * @param object $objNode DOM node
+     * @param integer $pideep
+     * @param booleand $pbFlag
+     * @return string PHP script to be saved. 
+     */
     function mountPhpNode(&$objNode, $pideep=0, $pbFlag=false)
     {
         $pideep++;
@@ -254,8 +133,8 @@ class CSimplate
 
         if ($objNode->__isset('show')) $this->commandShow($objNode, $sScope);
 
-        /* ****** INICIO COMANDO BIND ********** */
-        if(!$sScope) $sScope='inner';//Valor Padrão do Scope no Bind
+        /* Command bind */
+        if(!$sScope) $sScope='inner'; // Default value to the scope (bind)
         if ($objNode->__isset('bind'))
         {
             $this->p_sCurrObjName=$objNode->bind;
@@ -284,15 +163,12 @@ class CSimplate
         if($pbFlag) return $sScript;
     }
 
-    /******************************************************************************
-     *$FC replaceAttributes Método Construtor da Classe Simplate
-     *
-     *$EP Parâmetros da Função
-     *$P $pobjNode Objeto representando um Nó da estrutura DOM
-     *      Ao Entrar: Nó com atributos ainda não processados
-     *      Ao Sair:   Nó contendo seus atributos já processados
-     *$P $psObject Nome 'String' do objeto corrente em bind
-     *****************************************************************************/
+    /**
+     * @desc Replaces the keyword of the Simplate to the object value.
+     * @param object $pobjNode DOM node
+     * @param string $psObject
+     * @return boolean 
+     */
     function replaceAttributes($pobjNode, $psObject)
     {
         $temScape=false;
@@ -310,9 +186,14 @@ class CSimplate
         return $temScape;
     }
 
+    /**
+     * @desc Command show compiler.
+     * @param object $pobjNode DOM node.
+     * @param string $psScope Scope to perform compilation.
+     */
     function commandShow($pobjNode, $psScope)
     {
-        if(!$psScope) $psScope='outer';//Valor Padrão do Scope no Show
+        if(!$psScope) $psScope='outer'; // Default value to the scope (show)
 
         $sCurrObjName=$pobjNode->show;
         $pobjNode->__unset('show');
@@ -333,21 +214,12 @@ class CSimplate
         }
     }
 
-    /******************************************************************************
-     *$FC commandBind  Compilador do Comando Bind
-     *
-     *$ED Descrição da Função
-     *   Monta o Script compilado para tratamento do comando Bind quando este vem sem
-     *   o parâmetro 'as'.
-     *
-     *$EP Parâmetros da Função
-     *$P $pobjNode Objeto nó Corrente
-     *      Ao Entrar: Nó não compilado.
-     *$P $pideep Profundidade
-     *      Ao Entrar: Indica a profundidade em termos de recursão desta instância
-     *         de função. Utilizado para marcar as váriaveis do código compilado
-     *         evitando 'colisão' entre as mesmas.
-     *****************************************************************************/
+    /**
+     * @desc Command bind compiler.
+     * @param object $pobjNode DOM node.
+     * @param integer $pideep
+     * @return string PHP script
+     */
     function commandBind($pobjNode, $pideep)
     {
         $sScript="";
@@ -368,28 +240,13 @@ class CSimplate
         return $sScript;
     }
 
-    /******************************************************************************
-     *$FC commandBindAs  Compilador do Comando Bind + As
-     *
-     *$ED Descrição da Função
-     *    Monta o Script compilado para tratamento do Loop com Iterator identificado
-     *    pelo parâmetro 'as' na tag
-     *
-     *$EP Parâmetros da Função
-     *$P $pobjNode Objeto nó Corrente
-     *      Ao Entrar: Nó e seus filhos ainda não compilados, contendo o parâmetro 'as'
-     *         definido e, possivelmente, o parâmetro 'limit'.
-     *      Ao Sair: Objeto nó corrente com os filhos já compilados e com os
-     *      parâmetros 'as' e 'limit'
-     *$P $psScope Escopo
-     *      Ao Entrar:
-     *         - inner - indica que apenas o conteúdo do nó serão repetidos no loop;
-     *         - outer - indica que todo o nó será repetido no loop.
-     *$P $pideep Profundidade
-     *      Ao Entrar: Indica a profundidade em termos de recursão desta instância
-     *         de função. Utilizado para marcar as váriaveis do código compilado
-     *         evitando 'colisão' entre as mesmas.
-     *****************************************************************************/
+    /**
+     * @desc Command bind + as compiler.
+     * @param object $pobjNode DOM node
+     * @param integer $pideep
+     * @param string $psScope Scope to perform compilation.
+     * @return string PHP script
+     */
     function commandBindAs($pobjNode, $pideep, $psScope='inner')
     {
         $sAs = $pobjNode->as;
@@ -405,7 +262,7 @@ class CSimplate
 
         $sScript="<?php ";
         $sScript  .= '   $temp_'.$pideep.'=$'.$this->p_sCurrObjName.";\n";
-        $sScript  .= '   if ($temp_'.$pideep.'){ '."\n"; //Se a variável for null ou false retorna vazio
+        $sScript  .= '   if ($temp_'.$pideep.'){ '."\n"; // If the variable is null or false, returns void.
         $sScript  .= '   if (is_a($temp_'.$pideep.', "IIterator")) '."\n";
         $sScript  .= '   { '."\n";
         $sScript  .= '      $objIt'.$pideep."_".$this->p_iCounter.'=$temp_'.$pideep.";\n";
