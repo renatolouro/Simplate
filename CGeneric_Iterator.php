@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Iterator over Arrays.
  * @author Diego Chavão - @Chavao <fale@chavao.net> 
@@ -6,53 +7,53 @@
  */
 require_once('IIterator.php');
 
-class CGeneric_Iterator implements IIterator
-{
+class CGeneric_Iterator implements IIterator {
+
     private $p_arrObj;
     private $p_obj;
 
-    function CGeneric_Iterator($parrObj)
-    {
+    function CGeneric_Iterator($parrObj) {
         $this->p_arrObj = $parrObj;
 
-        if(is_array($this->p_arrObj)) $this->p_obj=reset($this->p_arrObj);
+        if (is_array($this->p_arrObj))
+            $this->p_obj = reset($this->p_arrObj);
     }
 
     /**
      * Get the current value of the array and forwards the pointer.
      * @return object Object with the current value of the array of objects.
      */
-    function next()
-    {
+    function next() {
         $objReturn = $this->p_obj;
 
-        if(is_array($this->p_arrObj)) $this->p_obj=next($this->p_arrObj);
+        if (is_array($this->p_arrObj))
+            $this->p_obj = next($this->p_arrObj);
         return $objReturn;
     }
 
     /**
      * Returns the pointer to the first element of the array.
      */
-    function rewind()
-    {
-        if(is_array($this->p_arrObj)) $this->p_obj=reset($this->p_arrObj);
+    function rewind() {
+        if (is_array($this->p_arrObj))
+            $this->p_obj = reset($this->p_arrObj);
     }
 
     /**
      * Verifies if the iterator has a next element in the array.
      * @return boolean
      */
-    function hasNext()
-    {
-        return $this->p_obj!=false;
+    function hasNext() {
+        return $this->p_obj != false;
     }
 
     /**
      * Should to call close() at the end of iterator. Flushes resources.
      */
-    function close()
-    {
+    function close() {
         unset($this->p_arrObj);
     }
 
-}?>
+}
+
+?>
