@@ -1,6 +1,6 @@
 <?php
 /**
- * @desc Iterator over Arrays
+ * @desc Iterator over Arrays.
  * @author Diego Chavão - @Chavao <fale@chavao.net> 
  * @author Lucas Souza - @LucasZeta <lucas@silostecnologia.com.br>
  */

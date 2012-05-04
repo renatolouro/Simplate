@@ -3,7 +3,7 @@
 require_once('lib/simple_html_dom.php');
 
 /**
- * @desc Simplate parser class.
+ * @desc Simplate parser class. 
  * @author Renato da Silva Louro - @rslouro <renato@silostecnologia.com.br>
  * @author Diego Chavão - @Chavao <fale@chavao.net>
  * @author Lucas Souza - @LucasZeta <lucas@silostecnologia.com.br> 
