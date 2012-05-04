@@ -1,6 +1,6 @@
 <?php
 /**
- * @desc Iterator over Arrays.
+ * Iterator over Arrays.
  * @author Diego Chavão - @Chavao <fale@chavao.net> 
  * @author Lucas Souza - @LucasZeta <lucas@silostecnologia.com.br>
  */
@@ -19,7 +19,7 @@ class CGeneric_Iterator implements IIterator
     }
 
     /**
-     * @desc Get the current value of the array and forwards the pointer.
+     * Get the current value of the array and forwards the pointer.
      * @return object Object with the current value of the array of objects.
      */
     function next()
@@ -31,7 +31,7 @@ class CGeneric_Iterator implements IIterator
     }
 
     /**
-     * @desc Returns the pointer to the first element of the array.
+     * Returns the pointer to the first element of the array.
      */
     function rewind()
     {
@@ -39,7 +39,7 @@ class CGeneric_Iterator implements IIterator
     }
 
     /**
-     * @desc Verifies if the iterator has a next element in the array.
+     * Verifies if the iterator has a next element in the array.
      * @return boolean
      */
     function hasNext()
@@ -48,7 +48,7 @@ class CGeneric_Iterator implements IIterator
     }
 
     /**
-     * @desc Should to call close() at the end of iterator. Flushes resources.
+     * Should to call close() at the end of iterator. Flushes resources.
      */
     function close()
     {

@@ -3,7 +3,7 @@
 require_once('lib/simple_html_dom.php');
 
 /**
- * @desc Simplate parser class. 
+ * Simplate parser class. 
  * @author Renato da Silva Louro - @rslouro <renato@silostecnologia.com.br>
  * @author Diego Chavão - @Chavao <fale@chavao.net>
  * @author Lucas Souza - @LucasZeta <lucas@silostecnologia.com.br> 
@@ -18,7 +18,7 @@ class CSimplate
     private static $p_iCounter = 0;
 
     /**
-     * @desc Constructor of Simplate class.
+     * Constructor of Simplate class.
      * @param string $psHtmlPath Path to the Simplate file.
      * @param string $psPHPPath Path to the PHP generated cache.
      * @param string $psplMaster Masterpage Simplate object.
@@ -37,7 +37,7 @@ class CSimplate
     }
 
     /**
-     * @desc Performs record the PHP generated cache. If masterpage exists, compiles and merge them to one file.
+     * Performs record the PHP generated cache. If masterpage exists, compiles and merge them to one file.
      * @return string HTML compiled 
      */
     function record()
@@ -81,7 +81,7 @@ class CSimplate
     }
 
     /**
-     * @desc Performs the Simplate compilation.
+     * Performs the Simplate compilation.
      * @return object DOM object compiled. 
      */
     function compile()
@@ -92,7 +92,7 @@ class CSimplate
     }
 
     /** 
-     * @desc Parse DOM object and delegates to mount the nodes.
+     * Parse DOM object and delegates to mount the nodes.
      * @param simple_html_dom_node $pobjDom DOM object
      * @param integer $pideep
      * @param booleann $pbFlag
@@ -115,7 +115,7 @@ class CSimplate
     }
 
     /**
-     * @desc Compiles the DOM object in a PHP and HTML result.
+     * Compiles the DOM object in a PHP and HTML result.
      * @param object $objNode DOM node
      * @param integer $pideep
      * @param booleand $pbFlag
@@ -164,7 +164,7 @@ class CSimplate
     }
 
     /**
-     * @desc Replaces the keyword of the Simplate to the object value.
+     * Replaces the keyword of the Simplate to the object value.
      * @param object $pobjNode DOM node
      * @param string $psObject
      * @return boolean 
@@ -187,7 +187,7 @@ class CSimplate
     }
 
     /**
-     * @desc Command show compiler.
+     * Command show compiler.
      * @param object $pobjNode DOM node.
      * @param string $psScope Scope to perform compilation.
      */
@@ -215,7 +215,7 @@ class CSimplate
     }
 
     /**
-     * @desc Command bind compiler.
+     * Command bind compiler.
      * @param object $pobjNode DOM node.
      * @param integer $pideep
      * @return string PHP script
@@ -241,7 +241,7 @@ class CSimplate
     }
 
     /**
-     * @desc Command bind + as compiler.
+     * Command bind + as compiler.
      * @param object $pobjNode DOM node
      * @param integer $pideep
      * @param string $psScope Scope to perform compilation.
