@@ -10,10 +10,10 @@
          stopOnFailure="false"
          syntaxCheck="false"
          verbose="false">
-         
+
     <filter>
         <whitelist>
-            <directory>../lib/</directory>
+            <directory>lib/</directory>
 
         </whitelist>
     </filter>
