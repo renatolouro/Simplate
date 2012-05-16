@@ -4,7 +4,7 @@ require_once 'CSimplate.php';
 class HellowWordTest extends \PHPUnit_Framework_TestCase
 {
     const TEMPLATE_FILE = '/helloworld.spl.html';
-    const GENERATED_FILE = '/tmp/simplate-tests-helloworld.php';
+    const GENERATED_FILE = '/simplate-tests-helloworld.php';
 
     public function tearDown()
     {
@@ -19,11 +19,11 @@ class HellowWordTest extends \PHPUnit_Framework_TestCase
 
     public function testTemplate()
     {
-        $object = new CSimplate(PATH_TEMPLATES.self::TEMPLATE_FILE, self::GENERATED_FILE);
+        $object = new CSimplate(PATH_TEMPLATES.self::TEMPLATE_FILE, sys_get_temp_dir().self::GENERATED_FILE);
         $object->record();
         ob_start();
         $hello = 'Foo';
-        require self::GENERATED_FILE;
+        require sys_get_temp_dir().self::GENERATED_FILE;
         $response = ob_get_clean();
         $this->assertContains('Foo', $response);
     }
