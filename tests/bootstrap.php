@@ -1,0 +1,7 @@
+<?php
+date_default_timezone_set('UTC');
+error_reporting(0);
+chdir(__DIR__.'/../');
+
+define('PATH_ROOT', realpath(__DIR__.'/../'));
+define('PATH_TEMPLATES', PATH_ROOT.'/tests/templates');
