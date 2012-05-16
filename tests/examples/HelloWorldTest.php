@@ -1,5 +1,5 @@
 <?php
-require_once 'CSimplate.php';
+require_once PATH_ROOT.'/CSimplate.php';
 
 class HellowWordTest extends \PHPUnit_Framework_TestCase
 {

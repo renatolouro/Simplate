@@ -11,10 +11,14 @@
          syntaxCheck="false"
          verbose="false">
 
-    <filter>
-        <whitelist>
-            <directory>lib/</directory>
-
-        </whitelist>
-    </filter>
+        <testsuites>
+                <testsuite name="Simplate Test Suite">
+                        <directory>examples/</directory>
+                </testsuite>
+        </testsuites>
+        <filter>
+                <whitelist>
+                        <directory>../lib/</directory>
+                </whitelist>
+        </filter>
 </phpunit>
