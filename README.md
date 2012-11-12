@@ -1,4 +1,4 @@
-#Simplate 0.0.2Alfa [![Build Status](https://travis-ci.org/iMastersDev/oportunidades.png?branch=travis,develop,master)](https://travis-ci.org/iMastersDev/oportunidades?branch=master)
+#Simplate 0.0.2Alfa [![Build Status](https://travis-ci.org/Chavao/Simplate.png?branch=master)](https://travis-ci.org/Chavao/Simplate?branch=master)
 
 Esta obra foi licenciada com uma Licença Creative Commons - GNU General Public License.
 
