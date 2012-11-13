@@ -1,0 +1,9 @@
+language: php
+script: phpunit -c tests/phpunit.xml --verbose --coverage-text tests/
+
+php:
+    - 5.3
+    - 5.4
+
+after_script:
+    - "phpunit -c tests/phpunit.xml --testdox tests/"
