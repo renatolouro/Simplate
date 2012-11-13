@@ -355,7 +355,7 @@ class CSimplate
 	    $sScript  .= '   if ($temp_'.$pideep.'){ '."\n"; //Se a variável for null ou false retorna vazio		
 		$sScript  .= '   if (!is_object($temp_'.$pideep.') || method_exists($temp_'.$pideep.', \'__toString\')) '."\n"; 
 		$sScript  .= '   {?> ';						
-		$sScript  .= '      <?=$temp_'.$pideep.' ?> '."\n";
+		$sScript  .= '      <?php echo $temp_'.$pideep.'; ?> '."\n";
 		$sScript  .= '<?php } '."\n"; 
 		$sScript  .= '   else if (is_a($temp_'.$pideep.', "CSimplate")) '."\n";
 		$sScript  .= '   { '."\n";
